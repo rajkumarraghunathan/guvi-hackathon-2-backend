@@ -121,19 +121,13 @@ router.get('/getProduct', async (req, res) => {
         console.log(productName);
         const existingProduct = await product.find({ productName });
         console.log(existingProduct);
-        if (!existingProduct) {
+        if (existingProduct) {
             res.send({
-                message: "No product match from existing item......"
+                message: "Products have been retrieved successfully.",
+                data: existingProduct
             })
         }
-        existingProduct.then(data => {
-            res.status(201).send({
-                message: "Products have been retrieved successfully.",
-                data: data
-            })
-        }).catch(error => {
-            res.status(400).send({ message: "Error while getting a new product", error: error });
-        })
+        res.send({ message: 'No Product found' })
     }
 
     catch (error) {
