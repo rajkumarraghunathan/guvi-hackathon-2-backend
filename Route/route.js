@@ -120,6 +120,7 @@ router.get('/getProduct', async (req, res) => {
         const { productName } = req.body
         console.log(productName);
         const existingProduct = await product.find({ productName });
+        console.log(existingProduct);
         if (!existingProduct) {
             res.send({
                 message: "No product match from existing item......"
