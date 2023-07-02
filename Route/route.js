@@ -117,11 +117,11 @@ router.put('/editProduct/:productId', (req, res) => {
 //get Product
 router.get('/getProduct', async (req, res) => {
     try {
-        const { productName } = req.body; // Use req.query instead of req.body to retrieve query parameters
+        const { productName } = req.body;
         console.log(productName);
-        const existingProduct = await product.find({ productName }); // Use uppercase "Product" instead of "product"
+        const existingProduct = await product.find({ productName });
         console.log(existingProduct);
-        if (existingProduct) { // Check if the existingProduct array has any items
+        if (existingProduct) {
             res.send({
                 message: "Products have been retrieved successfully.",
                 data: existingProduct
