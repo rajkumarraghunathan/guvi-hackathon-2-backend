@@ -118,6 +118,7 @@ router.put('/editProduct/:productId', (req, res) => {
 router.get('/getProduct', async (req, res) => {
     try {
         const { productName } = req.body
+        console.log(productName);
         const existingProduct = await product.find({ productName });
         if (!existingProduct) {
             res.send({
