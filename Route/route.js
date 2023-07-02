@@ -143,7 +143,7 @@ router.delete('/deleteProduct', async (req, res) => {
         console.log(existingProduct);
         if (existingProduct) {
             res.send({
-                message: "Products have been retrieved successfully.",
+                message: "Products have been deleted successfully.",
                 data: existingProduct
             });
         } else {
