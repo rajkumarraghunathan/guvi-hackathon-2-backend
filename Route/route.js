@@ -121,7 +121,7 @@ router.get('/getProduct', async (req, res) => {
         console.log(productName);
         const existingProduct = await product.find({ productName }); // Use uppercase "Product" instead of "product"
         console.log(existingProduct);
-        if (existingProduct.length > 0) { // Check if the existingProduct array has any items
+        if (existingProduct) { // Check if the existingProduct array has any items
             res.send({
                 message: "Products have been retrieved successfully.",
                 data: existingProduct
