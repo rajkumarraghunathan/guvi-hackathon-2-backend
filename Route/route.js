@@ -135,5 +135,24 @@ router.get('/getProduct', async (req, res) => {
 });
 
 
+router.delete('/deleteProduct', async (req, res) => {
+    try {
+        const { productName } = req.body;
+        console.log(productName);
+        const existingProduct = await product.findOneAndDelete({ productName });
+        console.log(existingProduct);
+        if (existingProduct) {
+            res.send({
+                message: "Products have been retrieved successfully.",
+                data: existingProduct
+            });
+        } else {
+            res.send({ message: 'No Product found' });
+        }
+    } catch (error) {
+        res.status(500).send({ message: 'Error while getting data', error: error }); // Correct the error message
+    }
+});
+
 
 module.exports = router;
