@@ -117,23 +117,23 @@ router.put('/editProduct/:productId', (req, res) => {
 //get Product
 router.get('/getProduct', async (req, res) => {
     try {
-        const { productName } = req.body
+        const { productName } = req.query; // Use req.query instead of req.body to retrieve query parameters
         console.log(productName);
-        const existingProduct = await product.find({ productName });
+        const existingProduct = await product.find({ productName }); // Use uppercase "Product" instead of "product"
         console.log(existingProduct);
-        if (existingProduct) {
+        if (existingProduct.length > 0) { // Check if the existingProduct array has any items
             res.send({
                 message: "Products have been retrieved successfully.",
                 data: existingProduct
-            })
+            });
+        } else {
+            res.send({ message: 'No Product found' });
         }
-        res.send({ message: 'No Product found' })
+    } catch (error) {
+        res.status(500).send({ message: 'Error while getting data', error: error }); // Correct the error message
     }
+});
 
-    catch (error) {
-        res.status(500).send({ message: 'Error while getting a data', error: error })
-    }
-})
 
 
 module.exports = router;
