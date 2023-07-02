@@ -114,4 +114,30 @@ router.put('/editProduct/:productId', (req, res) => {
     }
 })
 
+//get Product
+router.get('/getProduct', async (req, res) => {
+    try {
+        const { productName } = req.body
+        const existingProduct = await product.find({ productName });
+        if (!existingProduct) {
+            res.send({
+                message: "No product match from existing item......"
+            })
+        }
+        existingProduct.then(data => {
+            res.status(201).send({
+                message: "Products have been retrieved successfully.",
+                data: data
+            })
+        }).catch(error => {
+            res.status(400).send({ message: "Error while getting a new product", error: error });
+        })
+    }
+
+    catch (error) {
+        res.status(500).send({ message: 'Error while getting a data', error: error })
+    }
+})
+
+
 module.exports = router;
