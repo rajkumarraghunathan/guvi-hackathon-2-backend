@@ -7,7 +7,8 @@ const router = express.Router();
 //Add Products
 router.post('/addProduct', async (req, res) => {
     try {
-        let newProduct = new product(req.body);
+        const { productId, productImage, productName, productPrice } = req.body
+        let newProduct = new product({ productId, productImage, productName, productPrice });
         await newProduct.save().then(data => {
             res.status(201).send({ message: 'A new product has been added successfully.', data: data });
         }).catch(error => {
