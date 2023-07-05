@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors')
 const router = require('./Route/route');
+const userRoutes = require('./Route/userRoutes')
 const db = require('./Connect/connect');
 
 
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(router)
+app.use(userRoutes)
 
 app.listen(Portal, () => {
     console.log(`App is runing in a portal ${Portal}`);
