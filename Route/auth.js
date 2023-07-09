@@ -5,6 +5,7 @@ exports.isAuth = async (req, res, next) => {
     // const { cookies } = req.headers;
     const { cookies } = req;
     // cookies.accessToken
+    console.log(cookies);
     if (cookies.accessToken) {
 
         let user = jwt.verify(cookies.accessToken, process.env.SCERET_KEY)
