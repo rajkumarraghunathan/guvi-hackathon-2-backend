@@ -49,7 +49,13 @@ routes.post('/Signup', async (req, res) => {
         }
         const hashPassword = await bcrypt.hash(password, 10);
 
-        const newUser = new User({ name: name, email: email, hashPassword: hashPassword, role: role })
+        const newUser = new User({
+            name: name,
+            email: email,
+            password: hashPassword,
+            role: role
+        })
+        console.log(newUser);
         await newUser.save().then((data) => {
             res.status(200).send({
                 message: "New user was added Sucessfully................",
