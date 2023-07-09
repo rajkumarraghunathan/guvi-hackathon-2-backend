@@ -1,11 +1,12 @@
 const express = require('express');
-const product = require('../Schema/schema')
+const product = require('../Schema/schema');
+const { isADmin } = require('./auth');
 
 
 const router = express.Router();
 
 //Add Products
-router.post('/addProduct', async (req, res) => {
+router.post('/addProduct', isADmin, async (req, res) => {
     try {
         const { productId, productImage, productName, productPrice } = req.body
         let newProduct = new product({ productId, productImage, productName, productPrice });
@@ -40,7 +41,7 @@ router.get('/product', async (req, res) => {
 })
 
 //Read Products By Id
-router.get('/readProduct/:productId', async (req, res) => {
+router.get('/readProduct/:productId', isADmin, async (req, res) => {
     try {
         const { productId } = req.params;
         console.log(productId);
@@ -68,7 +69,7 @@ router.get('/readProduct/:productId', async (req, res) => {
 
 //Deleting a Product
 
-router.delete('/deleteProduct/:productId', async (req, res) => {
+router.delete('/deleteProduct/:productId', isADmin, async (req, res) => {
     try {
         const { productId } = req.params;
         await product.findByIdAndDelete({ _id: productId }).then(data => {
@@ -93,7 +94,7 @@ router.delete('/deleteProduct/:productId', async (req, res) => {
 })
 
 //Edit a Product
-router.put('/editProduct/:productId', (req, res) => {
+router.put('/editProduct/:productId', isADmin, (req, res) => {
     try {
         const { productId } = req.params;
         product.updateOne({ productId: productId }, { $set: req.body }).then(data => {
@@ -135,7 +136,7 @@ router.get('/getProduct', async (req, res) => {
 });
 
 
-router.delete('/deleteProduct', async (req, res) => {
+router.delete('/deleteProduct', isADmin, async (req, res) => {
     try {
         const { productName } = req.body;
         console.log(productName);
