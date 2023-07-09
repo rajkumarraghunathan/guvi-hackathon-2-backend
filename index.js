@@ -1,9 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors')
+const cookieParser = require('cookie-parser');
 const router = require('./Route/route');
 const userRoutes = require('./Route/userRoutes')
 const db = require('./Connect/connect');
+
 
 
 //app connection
@@ -14,6 +16,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,
 }))
+app.use(cookieParser());
 
 
 app.use((req, res, next) => {

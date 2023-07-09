@@ -22,9 +22,10 @@ exports.isAuth = async (req, res, next) => {
 
 exports.isADmin = async (req, res, next) => {
 
-    const { role } = req
+    const { cookies } = req
+    console.log(cookies.role);
 
-    if (role !== 'Admin') {
+    if (cookies.role !== 'Admin') {
         return res.status(403).json({ message: 'Admin Resource. Access Denied!' });
     }
 
@@ -32,9 +33,9 @@ exports.isADmin = async (req, res, next) => {
 }
 exports.isNormalUser = async (req, res, next) => {
 
-    const { role } = req
+    const { cookies } = req
 
-    if (role !== 'user') {
+    if (cookies.role !== 'user') {
         return res.status(403).json({ message: 'Forbidden' });
     }
 

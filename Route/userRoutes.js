@@ -12,7 +12,7 @@ const routes = express.Router();
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-routes.post('/login', async (req, res) => {
+routes.post('/login', async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
@@ -26,7 +26,9 @@ routes.post('/login', async (req, res) => {
         if (verifyPassword) {
             const token = await jwt.sign({ email: existingUser.email }, process.env.SCERET_KEY)
             res.cookie('accessToken', token, { expire: new Date() + 86400000 });
+            res.cookie('role', existingUser.role, { expire: new Date() + 86400000 });
             return res.status(200).send({ message: 'User signed-in successfully.', token, redirectUrl: '/textArea' });
+
         }
         else {
             res.send({ message: "Wrong Password" })
