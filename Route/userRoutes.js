@@ -41,7 +41,7 @@ routes.post('/login', async (req, res) => {
 
 routes.post('/Signup', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
 
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
@@ -49,7 +49,7 @@ routes.post('/Signup', async (req, res) => {
         }
         const hashPassword = await bcrypt.hash(password, 10);
 
-        const newUser = new User({ name: name, email: email, hashPassword: hashPassword })
+        const newUser = new User({ name: name, email: email, hashPassword: hashPassword, role: role })
         await newUser.save().then((data) => {
             res.status(200).send({
                 message: "New user was added Sucessfully................",
