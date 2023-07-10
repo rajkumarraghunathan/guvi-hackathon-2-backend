@@ -21,13 +21,15 @@ routes.post('/login', async (req, res, next) => {
         if (!existingUser) {
             res.send({ message: "Wrong User" })
         }
+        //Role check
+        const role = existingUser.role;
         //Password verify
         const verifyPassword = await bcrypt.compare(password, existingUser.hashPassword);
         if (verifyPassword) {
             const token = await jwt.sign({ email: existingUser.email }, process.env.SCERET_KEY)
             res.cookie('accessToken', token, { expire: new Date() + 86400000 });
-            res.cookie('role', existingUser.role, { expire: new Date() + 86400000 });
-            return res.status(200).send({ message: 'User signed-in successfully.', token, redirectUrl: '/textArea' });
+            res.cookie('role', role, { expire: new Date() + 86400000 });
+            return res.status(200).send({ message: 'User signed-in successfully.', token, redirectUrl: '/', role });
 
         }
         else {
