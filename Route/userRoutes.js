@@ -154,7 +154,7 @@ routes.post('/Reset-password/:resetToken', async (req, res) => {
 routes.get('/logout', isAuth, async (req, res) => {
     try {
         await res.clearCookie('accessToken');
-        res.status(200).send({ message: 'User signed-out!', redirectUrl: "/" });
+        res.status(200).send({ message: 'User signed-out!', redirectUrl: "/LoginPage" });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
