@@ -13,11 +13,11 @@ router.post('/addProduct', isADmin, async (req, res) => {
         await newProduct.save().then(data => {
             res.status(201).send({ message: 'A new product has been added successfully.', data: data });
         }).catch(error => {
-            console.log(error);
+
             res.status(400).send({ message: "Product was already exists", error: error });
         })
     } catch (error) {
-        console.log(error);
+
         res.status(500).send({ message: 'Internal Server Error' });
     }
 })
@@ -44,7 +44,7 @@ router.get('/product', async (req, res) => {
 router.get('/readProduct/:productId', isADmin, async (req, res) => {
     try {
         const { productId } = req.params;
-        console.log(productId);
+
         await product.findById({ _id: productId }).then(data => {
             if (!data) {
                 return res.status(404).send({ message: 'No product found with the given ID' })
@@ -54,12 +54,12 @@ router.get('/readProduct/:productId', isADmin, async (req, res) => {
                 data: data
             })
         }).catch(error => {
-            console.log(error);
+
             res.status(400).send({ message: "Error while getting a  product", error: error })
         })
 
     } catch (error) {
-        console.log(error);
+
         res.status(500).send({
             message: 'Error while getting a data',
             error: error
@@ -81,11 +81,11 @@ router.delete('/deleteProduct/:productId', isADmin, async (req, res) => {
                 data: data
             })
         }).catch(error => {
-            console.log(error);
+
             res.status(400).send({ message: "Error while deleting a  product", error: error })
         })
     } catch (error) {
-        console.log(error);
+
         res.status(500).send({
             message: 'Error while getting a data',
             error: error
@@ -103,11 +103,11 @@ router.put('/editProduct/:productId', isADmin, (req, res) => {
                 data: data
             })
         }).catch(error => {
-            console.log(error);
+
             res.status(400).send({ message: "Error while updating a product", error: error })
         })
     } catch (error) {
-        console.log(error);
+
         res.status(500).send({
             message: 'Error while updating a data',
             error: error
@@ -119,9 +119,9 @@ router.put('/editProduct/:productId', isADmin, (req, res) => {
 router.get('/getProduct', async (req, res) => {
     try {
         const { productName } = req.body;
-        console.log(productName);
+
         const existingProduct = await product.find({ productName });
-        console.log(existingProduct);
+
         if (existingProduct) {
             res.send({
                 message: "Products have been retrieved successfully.",
@@ -139,9 +139,9 @@ router.get('/getProduct', async (req, res) => {
 router.delete('/deleteProduct', isADmin, async (req, res) => {
     try {
         const { productName } = req.body;
-        console.log(productName);
+
         const existingProduct = await product.findOneAndDelete({ productName });
-        console.log(existingProduct);
+
         if (existingProduct) {
             res.send({
                 message: "Products have been deleted successfully.",
