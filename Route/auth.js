@@ -22,10 +22,10 @@ exports.isAuth = async (req, res, next) => {
 
 exports.isADmin = async (req, res, next) => {
 
-    const { cookies } = req
-    console.log(cookies.role);
+    const { role } = req
+    console.log(role);
 
-    if (cookies.role !== 'Admin') {
+    if (role !== 'Admin') {
         return res.status(403).json({ message: 'Admin Resource. Access Denied!' });
     }
 
