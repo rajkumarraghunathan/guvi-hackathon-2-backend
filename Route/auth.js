@@ -22,7 +22,7 @@ exports.isAuth = async (req, res, next) => {
 
 exports.isADmin = async (req, res, next) => {
 
-    const { role } = req
+    const { role } = req.headers
     console.log(role);
 
     if (role !== 'Admin') {
