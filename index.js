@@ -32,7 +32,7 @@ db();
 
 
 
-const Portal = 5000;
+const Portal = process.env.Portal || 8000;
 
 app.get('/', (req, res) => {
     res.send('Hello World');
