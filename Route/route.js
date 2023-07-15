@@ -1,9 +1,11 @@
 const express = require('express');
 const product = require('../Schema/schema');
-const { isADmin } = require('./auth');
+const { isADmin, isNormalUser } = require('./auth');
 
 
 const router = express.Router();
+
+const stripe = require('stripe')('your_stripe_secret_key');
 
 //Add Products
 router.post('/addProduct', isADmin, async (req, res) => {
@@ -154,6 +156,23 @@ router.delete('/deleteProduct', isADmin, async (req, res) => {
         res.status(500).send({ message: 'Error while getting data', error: error }); // Correct the error message
     }
 });
+
+
+router.post('/create-payment-intent', isNormalUser, async (req, res) => {
+    try {
+        const { amount, currency } = req.body;
+
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount,
+            currency,
+        });
+
+        res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to create payment intent' });
+    }
+});
+
 
 
 module.exports = router;
