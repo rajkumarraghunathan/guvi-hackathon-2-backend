@@ -161,7 +161,7 @@ router.delete('/deleteProduct', isADmin, async (req, res) => {
     }
 });
 
-app.post('/create-order', isNormalUser, async (req, res) => {
+router.post('/create-order', isNormalUser, async (req, res) => {
     try {
         const { amount, currency } = req.body;
 
