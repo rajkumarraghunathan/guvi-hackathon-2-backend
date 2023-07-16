@@ -33,9 +33,9 @@ exports.isADmin = async (req, res, next) => {
 }
 exports.isNormalUser = async (req, res, next) => {
 
-    const { cookies } = req
+    const { role } = req.headers
 
-    if (cookies.role !== 'user') {
+    if (role !== 'user') {
         return res.status(403).json({ message: 'Forbidden' });
     }
 
