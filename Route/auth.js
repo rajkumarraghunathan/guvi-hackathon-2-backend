@@ -33,7 +33,7 @@ exports.isADmin = async (req, res, next) => {
 }
 exports.isNormalUser = async (req, res, next) => {
 
-    const { role } = req.headers
+    const { role } = req
 
     if (role !== 'user') {
         return res.status(403).json({ message: 'Forbidden' });
