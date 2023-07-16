@@ -7,8 +7,8 @@ const { isADmin, isNormalUser } = require('./auth');
 const router = express.Router();
 
 const razorpay = new Razorpay({
-    key_id: 'your_razorpay_key_id',
-    key_secret: 'your_razorpay_key_secret',
+    key_id: 'rzp_test_EDX4Jw7hUw0OWQ',
+    key_secret: 'REj9LfJA0qxyxAjWUqGX5Svc',
 });
 
 //Add Products
