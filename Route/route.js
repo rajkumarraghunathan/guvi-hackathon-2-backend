@@ -1,11 +1,15 @@
 const express = require('express');
+const Razorpay = require('razorpay');
 const product = require('../Schema/schema');
 const { isADmin, isNormalUser } = require('./auth');
 
 
 const router = express.Router();
 
-const stripe = require('stripe')('your_stripe_secret_key');
+const razorpay = new Razorpay({
+    key_id: 'your_razorpay_key_id',
+    key_secret: 'your_razorpay_key_secret',
+});
 
 //Add Products
 router.post('/addProduct', isADmin, async (req, res) => {
@@ -157,21 +161,23 @@ router.delete('/deleteProduct', isADmin, async (req, res) => {
     }
 });
 
-
-router.post('/create-payment-intent', isNormalUser, async (req, res) => {
+app.post('/create-order', isNormalUser, async (req, res) => {
     try {
         const { amount, currency } = req.body;
 
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount,
+        const options = {
+            amount: amount * 100, // Amount in paise or smallest currency unit
             currency,
-        });
+        };
 
-        res.send({ clientSecret: paymentIntent.client_secret });
+        const order = await razorpay.orders.create(options);
+
+        res.json({ order });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create payment intent' });
+        res.status(500).json({ error: 'Failed to create order' });
     }
 });
+
 
 
 
