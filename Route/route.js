@@ -164,6 +164,7 @@ router.delete('/deleteProduct', isADmin, async (req, res) => {
 router.post('/create-order', isNormalUser, async (req, res) => {
     try {
         const { amount, currency } = req.body;
+        console.log(amount);
 
         const options = {
             amount: amount * 100, // Amount in paise or smallest currency unit
