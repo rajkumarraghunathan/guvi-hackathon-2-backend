@@ -28,7 +28,9 @@ routes.post('/login', async (req, res, next) => {
         if (verifyPassword) {
             const token = await jwt.sign({ email: existingUser.email }, process.env.SCERET_KEY)
             res.cookie('accessToken', token, { expire: new Date() + 86400000 });
+            res.setHeader('Set-Cookie', `accessToken=${token};`);
             res.cookie('role', role, { expire: new Date() + 86400000 });
+            res.setHeader('Set-Cookie', `role=${role};`);
             return res.status(200).send({ message: 'User signed-in successfully.', token, redirectUrl: '/', role });
 
         }
