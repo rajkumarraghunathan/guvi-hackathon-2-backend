@@ -169,7 +169,7 @@ router.post('/create-order', isNormalUser, async (req, res) => {
         console.log(amount);
 
         const options = {
-            amount: amount,
+            amount: amount * 100,
             currency,
         };
 
