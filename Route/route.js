@@ -175,31 +175,31 @@ router.post('/create-order', isNormalUser, async (req, res) => {
 
         const order = await razorpay.orders.create(options);
 
-        const transporter = nodemailer.createTransport({
+        // const transporter = nodemailer.createTransport({
 
-            service: 'gmail',
-            auth: {
-                user: process.env.user,
-                pass: process.env.pass
-            }
-        });
+        //     service: 'gmail',
+        //     auth: {
+        //         user: process.env.user,
+        //         pass: process.env.pass
+        //     }
+        // });
 
-        const mailOptions = {
-            from: process.env.user,
-            to: user.email,
-            subject: 'Password Reset',
-            text: `Your Order :${order}`,
-        };
+        // const mailOptions = {
+        //     from: process.env.user,
+        //     to: user.email,
+        //     subject: 'Password Reset',
+        //     text: `Your Order :${order}`,
+        // };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log('Error sending email:', error);
-                return false;
-            } else {
-                console.log('Email sent:', info.response);
-                return true;
-            }
-        });
+        // transporter.sendMail(mailOptions, (error, info) => {
+        //     if (error) {
+        //         console.log('Error sending email:', error);
+        //         return false;
+        //     } else {
+        //         console.log('Email sent:', info.response);
+        //         return true;
+        //     }
+        // });
 
         res.send({ order });
     } catch (error) {
