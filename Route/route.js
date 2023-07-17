@@ -1,5 +1,6 @@
 const express = require('express');
 const Razorpay = require('razorpay');
+const nodemailer = require('nodemailer');
 const product = require('../Schema/schema');
 const { isADmin, isNormalUser } = require('./auth');
 
@@ -7,8 +8,8 @@ const { isADmin, isNormalUser } = require('./auth');
 const router = express.Router();
 
 const razorpay = new Razorpay({
-    key_id: 'rzp_test_EDX4Jw7hUw0OWQ',
-    key_secret: 'REj9LfJA0qxyxAjWUqGX5Svc',
+    key_id: process.env.key_id,
+    key_secret: process.env.key_secret,
 });
 
 //Add Products
@@ -157,28 +158,80 @@ router.delete('/deleteProduct', isADmin, async (req, res) => {
             res.send({ message: 'No Product found' });
         }
     } catch (error) {
-        res.status(500).send({ message: 'Error while getting data', error: error }); // Correct the error message
+        res.status(500).send({ message: 'Error while getting data', error: error });
     }
 });
 
+// Create a route for payement and send a receipt to mail
 router.post('/create-order', isNormalUser, async (req, res) => {
     try {
         const { amount, currency } = req.body;
         console.log(amount);
 
         const options = {
-            amount: amount * 100, // Amount in paise or smallest currency unit
+            amount: amount,
             currency,
         };
 
         const order = await razorpay.orders.create(options);
 
-        res.json({ order });
+        const transporter = nodemailer.createTransport({
+
+            service: 'gmail',
+            auth: {
+                user: process.env.user,
+                pass: process.env.pass
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.user,
+            to: user.email,
+            subject: 'Password Reset',
+            text: `Your Order :${order}`,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log('Error sending email:', error);
+                return false;
+            } else {
+                console.log('Email sent:', info.response);
+                return true;
+            }
+        });
+
+        res.send({ order });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create order' });
+        res.status(500).send({ error: 'Failed to create order' });
     }
 });
 
+
+// Create a route to handle the payment webhook
+router.post('/payment-webhook', async (req, res) => {
+    const { event, payload } = req.body;
+
+    try {
+        // Verify the webhook event using the Razorpay Webhook signature
+        const isValidSignature = razorpay.webhook.validate(
+            event,
+            payload,
+            process.env.YOUR_WEBHOOK_SECRET
+        );
+
+        if (isValidSignature) {
+            // Process the payment and update your database or perform other business logic
+
+            res.status(200).send('Webhook received successfully');
+        } else {
+            res.status(400).send('Invalid signature');
+        }
+    } catch (error) {
+        console.error('Error processing webhook:', error);
+        res.status(500).send('Error processing webhook');
+    }
+});
 
 
 
