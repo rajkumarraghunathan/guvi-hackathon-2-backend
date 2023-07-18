@@ -178,31 +178,31 @@ router.post('/create-order', isAuth, async (req, res) => {
         const existingUser = await User.find({ email: req.user.email })
         console.log(existingUser);
 
-        // const transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
 
-        //     service: 'gmail',
-        //     auth: {
-        //         user: process.env.user,
-        //         pass: process.env.pass
-        //     }
-        // });
+            service: 'gmail',
+            auth: {
+                user: process.env.user,
+                pass: process.env.pass
+            }
+        });
 
-        // const mailOptions = {
-        //     from: process.env.user,
-        //     to: user.email,
-        //     subject: 'Password Reset',
-        //     text: `Your Order :${order}`,
-        // };
+        const mailOptions = {
+            from: process.env.user,
+            to: req.user.email,
+            subject: 'Password Reset',
+            text: `Your Order :${order}`,
+        };
 
-        // transporter.sendMail(mailOptions, (error, info) => {
-        //     if (error) {
-        //         console.log('Error sending email:', error);
-        //         return false;
-        //     } else {
-        //         console.log('Email sent:', info.response);
-        //         return true;
-        //     }
-        // });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log('Error sending email:', error);
+                return false;
+            } else {
+                console.log('Email sent:', info.response);
+                return true;
+            }
+        });
 
         res.send({ order });
     } catch (error) {
