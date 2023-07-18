@@ -175,7 +175,7 @@ router.post('/create-order', isAuth, async (req, res) => {
         };
 
         const order = await razorpay.orders.create(options);
-
+        const email = req.user.email
         const existingUser = await User.find({ email: req.user.email })
         const transporter = nodemailer.createTransport({
 
@@ -204,7 +204,7 @@ router.post('/create-order', isAuth, async (req, res) => {
             }
         });
 
-        res.send({ order });
+        res.status(200).send({ email: email, order });
     } catch (error) {
         res.status(500).send({ error: 'Failed to create order' });
     }
