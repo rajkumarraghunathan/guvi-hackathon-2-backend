@@ -190,7 +190,7 @@ router.post('/create-order', isAuth, async (req, res) => {
         const mailOptions = {
             from: process.env.user,
             to: req.user.email,
-            subject: 'Password Reset',
+            subject: 'Equipment Order',
             text: `Your Order :${order}`,
         };
 
