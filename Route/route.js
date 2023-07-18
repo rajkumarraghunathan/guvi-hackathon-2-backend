@@ -2,7 +2,7 @@ const express = require('express');
 const Razorpay = require('razorpay');
 const nodemailer = require('nodemailer');
 const product = require('../Schema/schema');
-const { isADmin, isNormalUser } = require('./auth');
+const { isADmin, isNormalUser, isAuth } = require('./auth');
 
 
 const router = express.Router();
@@ -163,7 +163,7 @@ router.delete('/deleteProduct', isADmin, async (req, res) => {
 });
 
 // Create a route for payement and send a receipt to mail
-router.post('/create-order', isNormalUser, async (req, res) => {
+router.post('/create-order', isAuth, async (req, res) => {
     try {
         const { amount, currency } = req.body;
         console.log(amount);
