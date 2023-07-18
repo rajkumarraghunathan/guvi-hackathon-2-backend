@@ -175,9 +175,8 @@ router.post('/create-order', isAuth, async (req, res) => {
         };
 
         const order = await razorpay.orders.create(options);
-        const existingUser = await User.find({ email: req.user.email })
-        console.log(existingUser.email);
 
+        const existingUser = await User.find({ email: req.user.email })
         const transporter = nodemailer.createTransport({
 
             service: 'gmail',
