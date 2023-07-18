@@ -3,6 +3,7 @@ const Razorpay = require('razorpay');
 const nodemailer = require('nodemailer');
 const product = require('../Schema/schema');
 const { isADmin, isNormalUser, isAuth } = require('./auth');
+const User = require('../Schema/userSchema')
 
 
 const router = express.Router();
@@ -174,6 +175,8 @@ router.post('/create-order', isAuth, async (req, res) => {
         };
 
         const order = await razorpay.orders.create(options);
+        const existingUser = await User.find({ email: req.user.email })
+        console.log(existingUser);
 
         // const transporter = nodemailer.createTransport({
 
