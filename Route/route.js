@@ -166,7 +166,7 @@ router.delete('/deleteProduct', isADmin, async (req, res) => {
 // Create a route for payement and send a receipt to mail
 router.post('/create-order', isAuth, async (req, res) => {
     try {
-        const { amount, currency } = req.body;
+        const { amount, currency, products } = req.body;
         console.log(amount);
 
         const options = {
@@ -191,7 +191,7 @@ router.post('/create-order', isAuth, async (req, res) => {
             from: process.env.user,
             to: req.user.email,
             subject: 'Equipment Order',
-            text: `Your Order :${order}`,
+            text: `Your Order :${products}`,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
