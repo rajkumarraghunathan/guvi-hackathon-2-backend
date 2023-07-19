@@ -147,7 +147,7 @@ router.get('/getProduct', async (req, res) => {
 router.delete('/deleteProduct', isADmin, async (req, res) => {
     try {
         const { productName } = req.body;
-
+        console.log(req.body);
         const existingProduct = await product.findOneAndDelete({ productName });
 
         if (existingProduct) {
