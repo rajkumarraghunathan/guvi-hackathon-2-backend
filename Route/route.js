@@ -12,6 +12,8 @@ const razorpay = new Razorpay({
     key_id: process.env.key_id,
     key_secret: process.env.key_secret,
 });
+console.log(key_id);
+console.log(key_secret);
 
 //Add Products
 router.post('/addProduct', isADmin, async (req, res) => {
