@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 exports.isAuth = async (req, res, next) => {
 
     const { cookies } = req.headers;
-    // const { cookies } = req;
-    // cookies.accessToken
+
 
     if (cookies) {
 
@@ -23,7 +22,7 @@ exports.isAuth = async (req, res, next) => {
 exports.isADmin = async (req, res, next) => {
 
     const { role } = req.headers
-    console.log(role);
+
 
     if (role !== 'Admin') {
         return res.status(403).json({ message: 'Admin Resource. Access Denied!' });
