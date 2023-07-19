@@ -9,8 +9,8 @@ const User = require('../Schema/userSchema')
 const router = express.Router();
 
 const razorpay = new Razorpay({
-    key_id: process.env.key_id,
-    key_secret: process.env.key_secret,
+    key_id: 'rzp_test_EDX4Jw7hUw0OWQ',
+    key_secret: 'REj9LfJA0qxyxAjWUqGX5Svc',
 });
 
 //Add Products
