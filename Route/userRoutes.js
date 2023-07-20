@@ -24,9 +24,9 @@ routes.post('/login', async (req, res, next) => {
         //Role check
         const role = existingUser.role;
         //Password verify
-        const verifyPassword = await bcrypt.compare(password, existingUser.hashPassword);
+        const verifyPassword = bcrypt.compare(password, existingUser.hashPassword);
         if (verifyPassword) {
-            const token = await jwt.sign({ email: existingUser.email }, process.env.SCERET_KEY)
+            const token = jwt.sign({ email: existingUser.email }, process.env.SCERET_KEY)
             res.cookie('accessToken', token, { expire: new Date() + 86400000 });
             // res.setHeader('Set-Cookie', `accessToken=${token};`);
             res.cookie('role', role, { expire: new Date() + 86400000 });
@@ -106,13 +106,13 @@ routes.post('/forgot-password', async (req, res) => {
             text: `Click the following link to reset your password:${process.env.API_URL}/Reset-password/${resetToken}`,
         };
 
-        await transporter.sendMail(mailOptions, (error, info) => {
+        transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log('Error sending email:', error);
                 return false;
             } else {
                 console.log('Email sent:', info.response);
-                return true
+                return true;
             }
         });
 
@@ -155,8 +155,8 @@ routes.post('/Reset-password/:resetToken', async (req, res) => {
 
 routes.get('/logout', isAuth, async (req, res) => {
     try {
-        await res.clearCookie('accessToken');
-        await res.clearCookie('role');
+        res.clearCookie('accessToken');
+        res.clearCookie('role');
         res.status(200).send({ message: 'User signed-out!', redirectUrl: "/LoginPage" });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });

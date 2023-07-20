@@ -13,14 +13,14 @@ const app = express();
 dotenv.config();
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://benevolent-rabanadas-8249e7.netlify.app',
     credentials: true,
 }))
 app.use(cookieParser());
 
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Origin', 'https://benevolent-rabanadas-8249e7.netlify.app');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
     next();
